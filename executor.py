@@ -29,3 +29,6 @@ class Executor:
 
             # Return a joke
             return self.joke()
+        
+        elif self.command.command == "unknown":
+            return "Unknown command"

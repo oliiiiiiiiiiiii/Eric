@@ -13,3 +13,6 @@ class Command:
         # Check if the command matches the joke regex
         if bool(re.match("(?:please |)(?:could you |)tell me (?:a |)joke"), self.command, flags = re.IGNORECASE):
             return "joke"
+        
+        else:
+            return "unknown"
