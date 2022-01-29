@@ -5,4 +5,4 @@ This is an AI Virtual assistant developed using python.
 -----------------------------
 Osama | Python Average Coder
 
-SanJ! | <Put something here>
+SanJ! | (Put something here)

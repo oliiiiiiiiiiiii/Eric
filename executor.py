@@ -1,5 +1,5 @@
-from .command import Command
-
+from command import Command
+import requests
 
 class Executor:
     """Executor class"""

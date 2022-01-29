@@ -6,12 +6,13 @@ class Command:
     def __init__(self, text: str):
         self.text = text
         self.command = self.returncommand()
+        
     
     def returncommand(self):
         """Finds what the inputted command wants (for example if i said "tell me a joke" this will return "joke")"""
         
         # Check if the command matches the joke regex
-        if bool(re.match("((?:((?:please |)|(?:(could you |can you )|))(send|tell)(?:(?: me|) a|) |)joke(?:\?|)|make me laugh|i want (?:a |)joke(?: please|))"), self.command, flags = re.IGNORECASE):
+        if bool(re.match("((?:((?:please |)|(?:(could you |can you )|))(send|tell)(?:(?: me|) a|) |)joke(?:\?|)|make me laugh|i want (?:a |)joke(?: please|))", self.text, flags = re.IGNORECASE)):
             return "joke"
         
         else:
