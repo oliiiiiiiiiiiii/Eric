@@ -14,6 +14,8 @@ class Executor:
         request = requests.get("https://some-random-api.ml/joke")
         _resp = request.json()
         return _resp['joke']
+    
+    # More functions for more responses here
 
     def findresponse(self):
         """Finds suitable response for the command using RegEx"""
