@@ -9,6 +9,7 @@ class Command:
         self.addToList = re.match("(?:(could you |can you )|)(?:please |)add (?P<item>\w.+) to (?P<listname>\w.+) list(?: please|)", self.text, flags = re.IGNORECASE)
         self.getListMatch = re.match("(what does (?:the |)list (?P<listname>\w.+) (have|contain)|what does (?P<listname2>\w.+) list (have|contain))", self.text, flags = re.IGNORECASE)
         self.jokeMatch = re.match("((?:((?:please |)|(?:(could you |can you )|))(send|tell)(?:(?: me|) a|) |)joke(?:\?|)|make me laugh|i want (?:a |)joke(?: please|))", self.text, flags = re.IGNORECASE)
+    
     def returncommand(self):
         """Finds what the inputted command wants (for example if i said "tell me a joke" this will return "joke")"""
         
