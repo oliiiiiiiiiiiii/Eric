@@ -12,7 +12,7 @@ class Command:
         
         # Check if the command matches any regex
 
-        addToList = re.match("(?:please |)(?:(could you |can you )|)add (?P<item>(\w+\s?)+) to (?P<listname>\w+) list(?: please|)(?:\?|)", self.text, flags = re.IGNORECASE)
+        addToList = re.match("((?:please |)(?:(could you |can you )|)add (?P<item>(\w\s?)+) to (?:my |)(?P<listname>\w+) list(?: please|)(?:\?|)|what( is|(?:'|)s) inside(?: (the|my)|) (?P<listname2>\w+) list)", self.text, flags = re.IGNORECASE)
 
         getListMatch = re.match("(what does (?:the |)list (?P<listname>\w+) (have|contain)(?:\?|)|what does (?:the |)(?P<listname2>\w.+) list (have|contain)(?:\?|))", self.text, flags = re.IGNORECASE)
 
@@ -33,7 +33,6 @@ class Command:
             return f"addtolist item: {addToList.groupdict()['item']} list: {addToList.groupdict()['listname']}"
         elif bool(removeFromList):
           a=f"removefromlist item: {removeFromList.groupdict()['item']} list: {removeFromList.groupdict()['listname'] or removeFromList.groupdict()['listname2']}"
-          print(a)
           return a
         else:
             return "AI"
