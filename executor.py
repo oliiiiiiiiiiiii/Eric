@@ -1,6 +1,7 @@
 from command import Command
 import os
 import requests
+import re
 
 class Executor:
     """Executor class"""
@@ -28,19 +29,46 @@ class Executor:
         for i in lists:
             if i.endswith("_list.txt"):
                 listslist.append(i.strip("_list.txt"))
+        with open(f"{listname}_list.txt", "r") as f:
+          read = f.read()
+          if read.count(f"{item}, ") >= 1:
+            return "Item already in list..."
         with open(f"{listname}_list.txt", "a+") as f:
             f.write(f"{item}, ")
         return f"Added {item} to {listname} list"
 
-    def getlist(self, listname):
+    def deletefromlist(self, item, listname):
+        """Removes item from a list"""
 
-        print(listname)
         lists = os.listdir()
         listslist = []
         for i in lists:
             if i.endswith("_list.txt"):
                 listslist.append(i.split("_list.txt"))
-        print(listslist)
+        if listname not in listslist[0]:
+            return "List not found"
+        
+        with open(f"{listname}_list.txt", "r") as f:
+            read = f.read()
+            if item == "all":
+                read = ""
+            elif read.count(f"{item}, ") == 0:
+              return "Item not in list..."
+            elif read.count(f"{item}, ") == 1:
+                read = read.replace(f"{item}, ", "")
+        with open(f"{listname}_list.txt", "w") as f:
+            f.write(read)
+        return f"Deleted {item} from {listname}"
+        
+
+        
+
+    def getlist(self, listname):
+        lists = os.listdir()
+        listslist = []
+        for i in lists:
+            if i.endswith("_list.txt"):
+                listslist.append(i.split("_list.txt"))
         if listname not in listslist[0]:
             return "List not found"
         with open(f"{listname}_list.txt", "r") as f:
@@ -65,10 +93,16 @@ class Executor:
         
         elif self.command.command.startswith("addtolist"):
             
-            item = self.command.command.split()[1]
-            lname = self.command.command.split()[2]
+            match = re.match("addtolist item: (?P<item>(\w+\s?)+) list: (?P<list>(\w+\s?)+)", self.command.command, flags = re.IGNORECASE)
+            item = match.groupdict()['item']
+            lname = match.groupdict()['list']
             return self.add2list(item, lname)
 
+        elif self.command.command.startswith("removefromlist"):
+          match = re.match("removefromlist item: (?P<item>(\w+\s?)+) list: (?P<list>(\w+\s?)+)", self.command.command, flags = re.IGNORECASE)
+          item = match.groupdict()['item']
+          lname = match.groupdict()['list']
+          return self.deletefromlist(item, lname)
 
         elif self.command.command == "unknown":
             return "Unknown command"

@@ -17,7 +17,8 @@ class Command:
         getListMatch = re.match("(what does (?:the |)list (?P<listname>\w+) (have|contain)(?:\?|)|what does (?:the |)(?P<listname2>\w.+) list (have|contain)(?:\?|))", self.text, flags = re.IGNORECASE)
 
         jokeMatch = re.match("((?:((?:please |)|(?:(could you |can you )|))(send|tell)(?:(?: me|) a|) |)joke(?:\?|)|make me laugh|i want (?:a |)joke(?: please|))", self.text, flags = re.IGNORECASE)
-
+        
+        removeFromList = re.match("(?:please |)(?:(could you |can you )|)(?:please |)remove (?P<item>(\w+\s?)+) from (list (?P<listname>(\w\s?)+)|(?P<listname2>\w+))(?: please|)(?:\?|)", self.text, flags = re.IGNORECASE)
         if bool(jokeMatch):
             return "joke"
         elif bool(getListMatch):
@@ -27,6 +28,10 @@ class Command:
         elif bool(addToList):
             # Returns <addToList <item> <listname>>
             # Will append to a list
-            return f"addtolist {addToList.groupdict()['item']} {addToList.groupdict()['listname']}"
+            return f"addtolist item: {addToList.groupdict()['item']} list: {addToList.groupdict()['listname']}"
+        elif bool(removeFromList):
+          a=f"removefromlist item: {removeFromList.groupdict()['item']} list: {removeFromList.groupdict()['listname'] or removeFromList.groupdict()['listname2']}"
+          print(a)
+          return a
         else:
             return "unknown"
