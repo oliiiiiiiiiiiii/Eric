@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
       if bool(re.match("text(?: interaction|)(?: please|)", _x, flags = re.IGNORECASE)):
 
-        cmd = input("\nWhat would you like to do?\n")
+        cmd = input()
         print("\n" + Executor(Command(cmd)).response)
 
       else:
