@@ -2,13 +2,14 @@ from command import Command
 import os
 import requests
 import re
+import json
+
 
 class Executor:
     """Executor class"""
 
     def __init__(self, command: Command):
         self.command = command
-
         # Find the suitable response
         self.response = self.findresponse()
     
@@ -103,6 +104,26 @@ class Executor:
           item = match.groupdict()['item']
           lname = match.groupdict()['list']
           return self.deletefromlist(item, lname)
-
-        elif self.command.command == "unknown":
-            return "Unknown command"
+        
+        elif self.command.command == "AI":
+            url = "https://random-stuff-api.p.rapidapi.com/ai"
+            params = {
+              "msg": self.command.text,
+              "bot_name": "Eric",
+              "bot_location": "New York",
+              "bot_favorite_color": "Blue",
+            }
+            f = open("secrets.json", "r")
+            load = json.load(f)
+            rsakey = load['RSA-key']
+            rapidapikey = load['x-rapidapi-key']
+            rapidapihost = "random-stuff-api.p.rapidapi.com"
+            headers = {
+              "authorization": rsakey,
+              "x-rapidapi-host": rapidapihost,
+              "x-rapidapi-key": rapidapikey
+            }
+            request = requests.request("GET", url, params = params, headers = headers)
+            return request.json()['AIResponse']
+        elif self.command.command == "features":
+            return "I Can create lists, tell you a joke"
