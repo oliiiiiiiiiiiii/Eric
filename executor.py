@@ -1,4 +1,5 @@
 from command import Command
+import os
 import requests
 
 class Executor:
@@ -20,7 +21,8 @@ class Executor:
         return _resp['joke']
     
     def add2list(self, item, listname):
-        print("suitable function is add2list")
+        """Adds an item to list"""
+
         lists = os.listdir()
         listslist = []
         for i in lists:
@@ -31,13 +33,15 @@ class Executor:
         return f"Added {item} to {listname} list"
 
     def getlist(self, listname):
-        print("suitable function is getList")
+
+        print(listname)
         lists = os.listdir()
         listslist = []
         for i in lists:
             if i.endswith("_list.txt"):
-                listslist.append(i.strip("_list.txt"))
-        if listname not in listslist:
+                listslist.append(i.split("_list.txt"))
+        print(listslist)
+        if listname not in listslist[0]:
             return "List not found"
         with open(f"{listname}_list.txt", "r") as f:
             lines = f.read()
@@ -56,12 +60,13 @@ class Executor:
         
         elif self.command.command.startswith("getlist"):
             
-            lname = self.command.command.strip()[1]
-            return self.getlist(lname)
+            lname = self.command.command.split()[1]
+            return f"The {self.command.command.split()[1]} list contains:\n" + self.getlist(lname)
         
         elif self.command.command.startswith("addtolist"):
             
-            item, lname = self.command.command.strip()[1], self.command.command.strip()[2]
+            item = self.command.command.split()[1]
+            lname = self.command.command.split()[2]
             return self.add2list(item, lname)
 
 
