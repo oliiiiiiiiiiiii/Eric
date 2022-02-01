@@ -109,9 +109,11 @@ class Executor:
             url = "https://random-stuff-api.p.rapidapi.com/ai"
             params = {
               "msg": self.command.text,
-              "bot_name": "Eric",
+              "bot_name": "eric",
               "bot_location": "New York",
               "bot_favorite_color": "Blue",
+              "bot_gender": "female",
+              "bot_age": "18"
             }
             f = open("secrets.json", "r")
             load = json.load(f)
@@ -125,5 +127,3 @@ class Executor:
             }
             request = requests.request("GET", url, params = params, headers = headers)
             return request.json()['AIResponse']
-        elif self.command.command == "features":
-            return "I Can create lists, tell you a joke"
